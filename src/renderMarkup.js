@@ -1,56 +1,53 @@
 
-export function  renderMarkupImageInfo ({
-    webformatURL,
-    largeImageURL,
-    tags,
-    likes,
-    views,
-    comments,
-    downloads
-}) {
-    return `
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b>Likes: ${likes}</b>
-    </p>
-    <p class="info-item">
-      <b>Views: ${views}</b>
-    </p>
-    <p class="info-item">
-      <b>Comments: ${comments}</b>
-    </p>
-    <p class="info-item">
-      <b>Downloads: ${downloads}</b>
-    </p>
+import getRefs from './get-refs';
+
+const refs = getRefs();
+
+
+export default function  renderMarkupImageInfo (galleryItems) {
+  const renderGallary =  galleryItems.hits.map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads}) => {
+    return `
+    <a class="photo-card_link" href=${largeImageURL}>
+<div class="photo-card post">
+  <div class ="photo-thumb"> 
+    <img src=${webformatURL} alt=${tags} loading="lazy"/>
+    </div>
+    <div class="info">
+      <p class="info-item">
+        <b>Likes:</b> <span>${likes}</span>
+      </p>
+      <p class="info-item">
+        <b>Views:</b> <span>${views}</span>
+      </p>
+      <p class="info-item">
+        <b>Comments:</b> <span>${comments}</span>
+      </p>
+      <p class="info-item">
+        <b>Downloads:</b> <span>${downloads}</span>
+      </p>
+    </div>
   </div>
-</div>
-`;
+  </a>
+    `;
+  }).join("");
+
+  refs.imagesContainer.insertAdjacentHTML('beforeend', renderGallary);
+  gallery.refresh();
 }
 
 
 
+const gallery = new SimpleLightbox(".gallery a", {
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom',
+  showCounter: false,
+  nextOnImageClick: true,
+  scrollZoom: false,
+});
 
 
 
-
-// <div class="country-info__card">
-// <h2 class="country-info__name">${name.common}</h2>
-// <img src="${flags.svg}" class="country-info__flag" width="220px" height="140px">
-// <ul class="country-info-features">
-//   <li class="country-info__feature">
-//     <h3>Capital:&nbsp;</h3>
-//     <p>${capital}</p>
-//   </li>
-//   <li class="country-info__feature">
-//     <h3>Population:&nbsp;</h3>
-//     <p>${population}</p>
-//   </li>
-//   <li class="country-info__feature">
-//     <h3>Languages:&nbsp;</h3>
-//     <p>${Object.values(languages)}</p>
-//   </li>
-// </ul>
-// </div>
