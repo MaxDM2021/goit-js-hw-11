@@ -74,9 +74,15 @@ async function  onSearch (e) {
     }
 
 
-    // const fetch = fetchImages() 
+//  fetchImages() 
 
-    // fetch;
+function addMore() {
+  if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+    fetchImages();
+    page += 1;
+  }
+}
+
 
     async function fetchImages() {
       const searchQuery = refs.searchInput.value;
@@ -94,11 +100,6 @@ async function  onSearch (e) {
       }
     }
 
-    function addMore() {
-      if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-        fetchImages();
-        page += 1;
-      }
-    }
+  
 
 
